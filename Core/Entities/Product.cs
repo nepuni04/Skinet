@@ -10,8 +10,8 @@ namespace Core.Entities
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string PictureUrl { get; set; }
-        public int ProductTypeID { get; set; }
-        public int ProductBrandID { get; set; }
+        public int ProductTypeId { get; set; }
+        public int ProductBrandId { get; set; }
 
         public ProductType ProductType { get; set; }
         public ProductBrand ProductBrand { get; set; }

@@ -21,7 +21,7 @@ namespace Api.Controllers
             _repo = repo;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<List<Product>>> GetProduct(int id) 
         {
             var product = await _repo.GetProductByIdAsync(id);
@@ -35,14 +35,14 @@ namespace Api.Controllers
             return Ok(products);
         }
 
-        [HttpGet]
+        [HttpGet("brands")]
         public async Task<ActionResult<List<Product>>> GetProductBrands()
         {
             var productBrands = await _repo.GetProductBrandsAsync();
             return Ok(productBrands);
         }
 
-        [HttpGet]
+        [HttpGet("types")]
         public async Task<ActionResult<List<Product>>> GetProductTypes()
         {
             var productTypes = await _repo.GetProductTypesAsync();

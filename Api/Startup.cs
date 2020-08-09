@@ -3,6 +3,7 @@ using Api.Middleware;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,14 @@ namespace Api
         {
             services.AddAutoMapper(typeof(Helpers.MappingProfiles));
             services.AddControllers();
+            
             services.AddDbContext<StoreContext>(x =>
             {
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(x => {
+                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
 
             services.AddSingleton<IConnectionMultiplexer>(c => {
@@ -38,6 +44,7 @@ namespace Api
             });
 
             services.AddApplicationService();
+            services.AddIdentityService();
             services.AddSwaggerDocumentation();
 
             services.AddCors(opt =>

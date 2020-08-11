@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Errors;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -32,13 +33,20 @@ namespace Api.Controllers
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
         {
             var updatedBasket = await _basketRepository.UpdateBasketAsync(basket);
+
+            if (updatedBasket == null) return BadRequest(new ApiResponse(400));
+
             return Ok(updatedBasket);
         }
 
         [HttpDelete]
-        public async Task DeleteBasketById(String id)
+        public async Task<ActionResult> DeleteBasketById(String id)
         {
-            await _basketRepository.DeleteBasketAsync(id);
+            var result = await _basketRepository.DeleteBasketAsync(id);
+
+            if (!result) return BadRequest(new ApiResponse(400));
+
+            return Ok();
         }
     }
 }

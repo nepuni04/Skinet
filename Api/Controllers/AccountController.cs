@@ -57,7 +57,7 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpPut("address")]
-        public async Task<ActionResult> UpdateUserAddress(AddressDto addressDto)
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
         {
             var user = await _userManager.FindByClaimsPrincipalWithAddressAsync(HttpContext.User);
 
@@ -75,7 +75,7 @@ namespace Api.Controllers
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
             return await _userManager.FindByEmailAsync(email) != null;
-        } 
+        }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -99,6 +99,14 @@ namespace Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
+            {
+                return BadRequest(new ApiValidationErrorResponse()
+                {
+                    Errors = new[] { "Email address is already in use" }
+                }); ;
+            }
+
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,

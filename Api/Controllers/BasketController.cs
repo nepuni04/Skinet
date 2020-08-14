@@ -39,7 +39,7 @@ namespace Api.Controllers
             var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
             var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
 
-            //if (updatedBasket == null) return BadRequest(new ApiResponse(400));
+            if (updatedBasket == null) return BadRequest(new ApiResponse(400));
 
             return Ok(updatedBasket);
         }

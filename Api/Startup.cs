@@ -77,7 +77,7 @@ namespace Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UserSwaggerDocumentation();
+            app.UseSwaggerDocumentation();
 
             app.UseEndpoints(endpoints =>
             {

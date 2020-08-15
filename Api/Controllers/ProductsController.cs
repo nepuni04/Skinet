@@ -32,7 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Product>>> GetProduct(int id)
+        public async Task<ActionResult<List<ProductToReturnDTO>>> GetProduct(int id)
         {
             var spec = new ProductWithTypeAndBrandSpecification(id);
             

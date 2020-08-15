@@ -1,7 +1,4 @@
 ﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Core.Specifications
 {
@@ -9,8 +6,8 @@ namespace Core.Specifications
     {
         public ProductWithTypeAndBrandSpecification(ProductSpecParams param)
             : base(x =>
-                  (!param.brandId.HasValue || x.ProductBrandId == param.brandId) &&
-                  (!param.typeId.HasValue || x.ProductTypeId == param.typeId) &&
+                  (!param.BrandId.HasValue || x.ProductBrandId == param.BrandId) &&
+                  (!param.TypeId.HasValue || x.ProductTypeId == param.TypeId) &&
                   (string.IsNullOrEmpty(param.Search) || x.Name.ToLower().Contains(param.Search))
               )
         {
@@ -19,9 +16,9 @@ namespace Core.Specifications
             AddOrderBy(x => x.Name);
             AddPaging(param.PageSize * (param.PageIndex - 1), param.PageSize);
 
-            if (!string.IsNullOrEmpty(param.sort))
+            if (!string.IsNullOrEmpty(param.Sort))
             {
-                switch (param.sort)
+                switch (param.Sort)
                 {
                     case "priceAsc":
                         AddOrderBy(x => x.Price);

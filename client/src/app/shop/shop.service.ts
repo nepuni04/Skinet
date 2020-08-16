@@ -1,16 +1,18 @@
-import { ShopParams } from './../shared/models/shopParams';
-import { IBrand } from './../shared/models/brand';
-import { IType } from './../shared/models/productType';
-import { IPagination } from './../shared/models/pagination';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IProduct } from '../shared/models/product';
+import { environment } from './../../environments/environment';
+import { IBrand } from './../shared/models/brand';
+import { IPagination } from './../shared/models/pagination';
+import { IType } from './../shared/models/productType';
+import { ShopParams } from './../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl = "https://localhost:5001/api";
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -36,6 +38,10 @@ export class ShopService {
     return this.http.get<IPagination>(`${this.baseUrl}/products`, {
       params
     });
+  }
+
+  getProduct(productId: number): Observable<IProduct> {
+    return this.http.get<IProduct>(`${this.baseUrl}/products/${productId}`);
   }
 
   getBrands(): Observable<IBrand[]> {

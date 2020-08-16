@@ -61,13 +61,19 @@ export class ShopComponent implements OnInit {
   }
 
   onBrandSelected(brandId: number): void {
-    this.shopParams.brandId = brandId;
-    this.getProducts();
+    if (this.shopParams.brandId !== brandId) {
+      this.shopParams.brandId = brandId;
+      this.shopParams.pageIndex = 1;
+      this.getProducts();
+    }
   }
 
   onTypeSelected(typeId): void {
-    this.shopParams.typeId = typeId;
-    this.getProducts();
+    if (this.shopParams.typeId !== typeId) {
+      this.shopParams.typeId = typeId;
+      this.shopParams.pageIndex = 1;
+      this.getProducts();
+    }
   }
 
   onSearch(): void {

@@ -68,14 +68,14 @@ namespace Api.Controllers
         }
 
         [HttpGet("brands")]
-        public async Task<ActionResult<List<Product>>> GetProductBrands()
+        public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
             var productBrands = await _productBrandRepo.ListAllAsync();
             return Ok(productBrands);
         }
 
         [HttpGet("types")]
-        public async Task<ActionResult<List<Product>>> GetProductTypes()
+        public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
             var productTypes = await _productTypeRepo.ListAllAsync();
             return Ok(productTypes);

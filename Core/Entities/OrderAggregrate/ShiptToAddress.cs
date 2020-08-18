@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Core.Entities.OrderAggregrate
 {
-    public class Address
+    public class ShipToAddress
     {
-        public Address()
+        public ShipToAddress()
         {
         }
 
-        public Address(string firstName, string lastName, string street, string city, string state, string zipcode)
+        public ShipToAddress(string firstName, string lastName, string street, string city, string state, string zipcode)
         {
             FirstName = firstName;
             LastName = lastName;

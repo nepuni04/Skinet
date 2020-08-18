@@ -1,9 +1,6 @@
 ﻿using Core.Entities.OrderAggregrate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Data.Config
 {
@@ -13,7 +10,11 @@ namespace Infrastructure.Data.Config
         {
             builder.Property(o => o.Price).HasColumnType("decimal(18,2)");
 
-            builder.OwnsOne(o => o.ItemOrdered, oi => oi.WithOwner());
+            builder.OwnsOne(o => o.ItemOrdered, io => {
+                io.WithOwner();
+                io.Property(p => p.ProductName).HasMaxLength(100).IsRequired();
+                io.Property(p => p.PictureUrl).IsRequired();
+            });
         }
     }
 }

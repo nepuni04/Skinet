@@ -1,15 +1,10 @@
 using Api.Extensions;
 using Api.Middleware;
 using AutoMapper;
-using Core.Interfaces;
-using Infrastructure.Data;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
 
 namespace Api
 {
@@ -27,22 +22,7 @@ namespace Api
         {
             services.AddAutoMapper(typeof(Helpers.MappingProfiles));
             services.AddControllers();
-            
-            services.AddDbContext<StoreContext>(x =>
-            {
-                x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-            });
-
-            services.AddDbContext<AppIdentityDbContext>(x => {
-                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
-            });
-
-            services.AddSingleton<IConnectionMultiplexer>(c => {
-                var config = ConfigurationOptions.Parse(_config
-                    .GetConnectionString("Redis"), true);
-                return ConnectionMultiplexer.Connect(config);
-            });
-
+            services.AddMultiDbContext(_config);
             services.AddApplicationService();
             services.AddIdentityService(_config);
             services.AddSwaggerDocumentation();

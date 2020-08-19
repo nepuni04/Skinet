@@ -5,26 +5,18 @@ using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IGenericRepository<Order> _orderRepo;
-        private readonly IGenericRepository<DeliveryMethod> _dmRepo;
-        private readonly IGenericRepository<Product> _productRepo;
-        private readonly BasketRepository _basketRepo;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBasketRepository _basketRepo;
 
-        public OrderService(IGenericRepository<Order> orderRepo, 
-            IGenericRepository<DeliveryMethod> dmRepo,
-            IGenericRepository<Product> productRepo,
-            BasketRepository basketRepo)
+        public OrderService(IUnitOfWork unitOfWork, IBasketRepository basketRepo)
         {
-            _orderRepo = orderRepo;
-            _dmRepo = dmRepo;
-            _productRepo = productRepo;
+            _unitOfWork = unitOfWork;
             _basketRepo = basketRepo;
         }
 
@@ -37,14 +29,14 @@ namespace Infrastructure.Services
             var orderItems = new List<OrderItem>();
             foreach (var item in basket.Items)
             {
-                var product = await _productRepo.GetByIdAsync(item.Id);
+                var product = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
                 var itemOrdered = new ProductItemOrdered(product.Id, product.Name, product.PictureUrl);
                 var orderItem = new OrderItem(itemOrdered, product.Price, item.Quantity);
-                orderItems.Append(orderItem);
+                orderItems.Add(orderItem);
             }
 
             // Get delivery method from repo
-            var deliveryMethod = await _dmRepo.GetByIdAsync(deliveryMethodId);
+            var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
             // Calculate subtotal
             var subtotal = orderItems.Sum(item => item.Quantity * item.Price);

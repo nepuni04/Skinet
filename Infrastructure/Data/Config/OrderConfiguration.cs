@@ -18,8 +18,8 @@ namespace Infrastructure.Data.Config
                 .IsRequired()
                 .HasConversion(
                     o => o.ToString(),
-                    o => (OrderStatus) Enum.Parse(typeof(OrderStatus), o)
-                  );
+                    o => (OrderStatus)Enum.Parse(typeof(OrderStatus), o)
+                );
 
             builder.OwnsOne(o => o.ShipToAddress, sa => {
                 sa.WithOwner();

@@ -1,6 +1,8 @@
 ﻿using Core.Entities;
 using Core.Entities.OrderAggregrate;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -25,18 +27,28 @@ namespace Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            if(Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
+            if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
             {
                 foreach (var entityType in modelBuilder.Model.GetEntityTypes())
                 {
                     var properties = entityType.ClrType.GetRuntimeProperties()
                         .Where(p => p.PropertyType == typeof(decimal));
 
+                    var datetimeProperties = entityType.ClrType.GetRuntimeProperties()
+                        .Where(p => p.PropertyType == typeof(DateTimeOffset));
+
                     foreach (var property in properties)
                     {
                         modelBuilder.Entity(entityType.Name)
                             .Property(property.Name)
                             .HasConversion<double>();
+                    }
+
+                    foreach (var property in datetimeProperties)
+                    {
+                        modelBuilder.Entity(entityType.Name)
+                            .Property(property.Name)
+                            .HasConversion(new DateTimeOffsetToBinaryConverter());
                     }
                 }
             }

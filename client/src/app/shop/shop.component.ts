@@ -16,7 +16,7 @@ export class ShopComponent implements OnInit {
   types: IType[];
   shopParams = new ShopParams();
   totalCount: number;
-  @ViewChild('search', { static: true }) searchTerm: ElementRef;
+  @ViewChild('search', { static: false }) searchTerm: ElementRef;
 
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },

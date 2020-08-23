@@ -3,9 +3,9 @@ import {
   HttpInterceptor, HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -38,7 +38,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
           }
           if (response.status === 401) {
-            this.toastr.error(response.error.message, response.error.statusCode);
+            this.toastr.error(
+              response.error.message,
+              response.error.statusCode
+            );
           }
         }
         throw response;

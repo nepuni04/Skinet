@@ -3,7 +3,6 @@
   "rules": {
     "align": {
       "options": [
-        "parameters",
         "statements"
       ]
     },
@@ -95,8 +94,7 @@
       }
     },
     "typedef": [
-      true,
-      "call-signature"
+      true
     ],
     "typedef-whitespace": {
       "options": [

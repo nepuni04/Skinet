@@ -15,6 +15,9 @@ appsettings.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# SQLite Databases
+*.db
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -22,10 +21,6 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     CoreModule,
     NgxSpinnerModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true,
-      positionClass: 'toast-bottom-right'
-    }),
     HomeModule
   ],
   providers: [

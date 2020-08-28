@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
@@ -39,5 +39,9 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
+  }
+
+  get control(): AbstractControl {
+    return this.controlDir && this.controlDir.control;
   }
 }

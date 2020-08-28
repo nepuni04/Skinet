@@ -18,7 +18,7 @@ export class BusyService {
     });
   }
 
-  idle() {
+  idle(): void {
     this.busyRequestCount--;
     if (this.busyRequestCount <= 0) {
       this.busyRequestCount = 0;

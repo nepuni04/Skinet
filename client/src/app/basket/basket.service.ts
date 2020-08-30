@@ -52,6 +52,12 @@ export class BasketService {
       }, error => console.log(error));
   }
 
+  deleteLocalBasket(): void {
+    this.basketSource.next(null);
+    this.basketTotalsSource.next(null);
+    localStorage.removeItem("basket_id");
+  }
+
   getCurrentBasketValue(): IBasket {
     return this.basketSource.value;
   }

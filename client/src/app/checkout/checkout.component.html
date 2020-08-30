@@ -19,12 +19,19 @@
         </cdk-step>
 
         <cdk-step label="Payment">
-          <app-checkout-payment></app-checkout-payment>
+          <app-checkout-payment
+            [checkoutForm]="checkoutForm"
+          ></app-checkout-payment>
         </cdk-step>
       </app-stepper>
     </div>
-    <div class="col-4">
-      <app-order-totals></app-order-totals>
+    
+    <div class="col-4" *ngIf="basketTotals$ | async as basketTotals">
+      <app-order-totals
+        [shipping]="basketTotals.shipping"
+        [subtotal]="basketTotals.subtotal"
+        [total]="basketTotals.total"
+      ></app-order-totals>
     </div>
   </div>
 </div>

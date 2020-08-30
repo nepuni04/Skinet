@@ -25,6 +25,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: "orders",
+    loadChildren: () => import('./order/order.module').then(m => m.OrderModule),
+    data: { breadcrumb: 'Orders' },
+    canActivate: [AuthGuard]
+  },
+  {
     path: "account",
     loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
     data: { breadcrumb: { skip: true } }

@@ -19,8 +19,8 @@
         </th>
       </tr>
     </thead>
-    <tbody *ngIf="basket$ | async as basket">
-      <tr *ngFor="let item of basket.items">
+    <tbody *ngIf="items">
+      <tr *ngFor="let item of items">
         <th scope="row">
           <div class="p-2">
             <img

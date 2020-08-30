@@ -28,7 +28,7 @@ namespace Api.Helpers
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(o => o.ProductId, i => i.MapFrom(s => s.ItemOrdered.ProductItemId))
                 .ForMember(o => o.ProductName, i => i.MapFrom(s => s.ItemOrdered.ProductName))
-                .ForMember(o => o.PictureUrl, i => i.MapFrom(s => s.ItemOrdered.PictureUrl));
+                .ForMember(o => o.PictureUrl, i => i.MapFrom<OrderUrlResolver>());
         }
     }
 }

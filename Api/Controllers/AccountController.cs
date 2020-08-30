@@ -48,7 +48,7 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpGet("address")]
-        public async Task<ActionResult> GetUserAddress()
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
             var user = await _userManager.FindByClaimsPrincipalWithAddressAsync(HttpContext.User);
 

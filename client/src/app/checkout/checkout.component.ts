@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from './../account/account.service';
 import { BasketService } from '../basket/basket.service';
@@ -10,9 +10,10 @@ import { IBasketTotals } from '../shared/models/basket';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
   checkoutForm: FormGroup;
   basketTotals$: Observable<IBasketTotals>;
+  subscription: Subscription;
 
   constructor(private fb: FormBuilder,
     private basketService: BasketService,
@@ -21,6 +22,8 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.createCheckoutForm();
     this.getAddressFormValue();
+    this.getDeliveryMethodValue();
+
     this.basketTotals$ = this.basketService.basketTotals$;
   }
 
@@ -54,6 +57,14 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
+  getDeliveryMethodValue() {
+    this.subscription = this.basketService.basket$.subscribe(basket => {
+      if (basket && basket.deliveryMethodId) {
+        this.deliveryForm.get("deliveryMethod").patchValue(basket.deliveryMethodId.toString());
+      }
+    });
+  }
+
   get addressForm(): AbstractControl {
     return this.checkoutForm.get("addressForm");
   }
@@ -64,5 +75,9 @@ export class CheckoutComponent implements OnInit {
 
   get paymentForm(): AbstractControl {
     return this.checkoutForm.get("paymentForm");
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

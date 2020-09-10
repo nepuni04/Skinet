@@ -75,7 +75,7 @@ export class AccountService {
     return this.http.get<IAddress>(`${this.baseUrl}/account/address`);
   }
 
-  updateUserAddress(address: IAddress): Observable<any> {
-    return this.http.put(`${this.baseUrl}/account/address`, address);
+  updateUserAddress(address: IAddress): Observable<IAddress> {
+    return this.http.put<IAddress>(`${this.baseUrl}/account/address`, address);
   }
 }

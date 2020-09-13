@@ -36,6 +36,11 @@ const routes: Routes = [
     data: { breadcrumb: { skip: true } }
   },
   {
+    path: "admin",
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    data: { breadcrumb: "Admin" }
+  },
+  {
     path: "test-error",
     component: TestErrorComponent,
     data: { breadcrumb: 'Test Error' }

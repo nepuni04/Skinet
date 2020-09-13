@@ -14,10 +14,12 @@ namespace Api.Extensions
         public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration config)
         {
             var builder = services.AddIdentityCore<AppUser>();
+            builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
 
-            builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<AppIdentityDbContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
+            builder.AddRoleManager<RoleManager<AppRole>>();
+            builder.AddRoleValidator<RoleValidator<AppRole>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

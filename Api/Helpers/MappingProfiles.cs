@@ -10,10 +10,10 @@ namespace Api.Helpers
     {
         public MappingProfiles()
         {
-            CreateMap<Product, ProductToReturnDTO>()
-                .ForMember(i => i.ProductBrand, o => o.MapFrom(s => s.ProductBrand.Name))
-                .ForMember(i => i.ProductType, o => o.MapFrom(s => s.ProductType.Name))
-                .ForMember(i => i.PictureUrl, o => o.MapFrom<ProductUrlResolver>());
+            CreateMap<Product, ProductToReturnDto>()
+                .ForMember(dto => dto.ProductBrand, p => p.MapFrom(s => s.ProductBrand.Name))
+                .ForMember(dto => dto.ProductType, p => p.MapFrom(s => s.ProductType.Name))
+                .ForMember(dto => dto.PictureUrl, p => p.MapFrom<ProductUrlResolver>());
 
             CreateMap<ProductCreateDto, Product>();
 
@@ -23,14 +23,18 @@ namespace Api.Helpers
             CreateMap<BasketItemDto, BasketItem>();
 
             CreateMap<AddressDto, ShipToAddress>();
+
             CreateMap<Order, OrderToReturnDto>()
-                .ForMember(o => o.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price))
-                .ForMember(o => o.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.Description));
+                .ForMember(dto => dto.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price))
+                .ForMember(dto => dto.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.Description));
 
             CreateMap<OrderItem, OrderItemDto>()
-                .ForMember(o => o.ProductId, i => i.MapFrom(s => s.ItemOrdered.ProductItemId))
-                .ForMember(o => o.ProductName, i => i.MapFrom(s => s.ItemOrdered.ProductName))
-                .ForMember(o => o.PictureUrl, i => i.MapFrom<OrderUrlResolver>());
+                .ForMember(dto => dto.ProductId, oi => oi.MapFrom(s => s.ItemOrdered.ProductItemId))
+                .ForMember(dto => dto.ProductName, oi => oi.MapFrom(s => s.ItemOrdered.ProductName))
+                .ForMember(dto => dto.PictureUrl, oi => oi.MapFrom<OrderUrlResolver>());
+
+            CreateMap<Photo, PhotoToReturnDto>()
+                .ForMember(dto => dto.PictureUrl, p => p.MapFrom<PhotoUrlResolver>());
         }
     }
 }

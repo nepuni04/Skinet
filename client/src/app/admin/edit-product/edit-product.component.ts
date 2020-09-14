@@ -41,16 +41,17 @@ export class EditProductComponent implements OnInit {
       });
   }
 
-  onSubmit(product: ProductFormValues): void {
+  onSubmit(): void {
     if (this.route.snapshot.url[0].path === 'edit') {
-      const updatedProduct = { ...this.product, product, price: +product.price }
+      const updatedProduct = { ...this.product, price: +this.product.price }
       this.adminService.updateProduct(+this.route.snapshot.paramMap.get('id'), updatedProduct)
-        .subscribe(response => {
-          this.router.navigate(["/admin"]);
-        }, error => console.log(error));
+        .subscribe(
+          response => this.router.navigate(["/admin"]),
+          error => console.log(error)
+        );
     }
     else {
-      const newProduct = { ...product, price: +product.price };
+      const newProduct = { ...this.product, price: +this.product.price };
       this.adminService.createProduct(newProduct).subscribe(
         response => this.router.navigate(["/admin"]),
         error => console.log(error)

@@ -26,7 +26,7 @@ export class BasketService {
       map((basket: IBasket) => {
         this.basketSource.next(basket);
       })
-    )
+    );
   }
 
   setDeliveryMethod(deliveryMethod: IDeliveryMethod): void {
@@ -36,7 +36,7 @@ export class BasketService {
     const basket = this.getCurrentBasketValue();
     basket.deliveryMethodId = deliveryMethod.id;
     basket.shippingPrice = deliveryMethod.price;
-    this.setBasket(basket)
+    this.setBasket(basket);
   }
 
   getBasket(basketId: string): Observable<void> {

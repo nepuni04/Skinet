@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
@@ -16,6 +17,8 @@ namespace Infrastructure.Data
         {
             try
             {
+                //var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
                 if (!context.ProductBrands.Any())
                 {
                     var brandsData =
@@ -51,11 +54,21 @@ namespace Infrastructure.Data
                     var productsData =
                         File.ReadAllText("../Infrastructure/Data/SeedData/products.json");
 
-                    var products = JsonSerializer.Deserialize<IEnumerable<Product>>(productsData);
+                    var products = JsonSerializer.Deserialize<IEnumerable<ProductSeedModel>>(productsData);
 
                     foreach (var item in products)
                     {
-                        context.Products.Add(item);
+                        var pictureFileName = item.PictureUrl.Substring(16);
+                        var product = new Product
+                        {
+                            Name = item.Name,
+                            Description = item.Description,
+                            Price = item.Price,
+                            ProductTypeId = item.ProductTypeId,
+                            ProductBrandId = item.ProductBrandId
+                        };
+                        product.AddPhoto(item.PictureUrl, pictureFileName);
+                        context.Products.Add(product);
                     }
 
                     await context.SaveChangesAsync();

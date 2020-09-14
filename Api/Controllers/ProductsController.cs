@@ -28,7 +28,7 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<ProductToReturnDTO>>> GetProduct(int id)
+        public async Task<ActionResult<List<ProductToReturnDto>>> GetProduct(int id)
         {
             var spec = new ProductWithTypeAndBrandSpecification(id);
             
@@ -36,12 +36,12 @@ namespace Api.Controllers
 
             if (product == null) return NotFound(new ApiResponse(404));
 
-            return Ok(_mapper.Map<Product, ProductToReturnDTO>(product));
+            return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDTO>>> GetProducts(
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
            [FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductWithTypeAndBrandSpecification(productParams);
@@ -53,9 +53,9 @@ namespace Api.Controllers
             var products = await _unitOfWork.Repository<Product>().ListWithSpecAsync(spec);
 
             var data = _mapper.Map<IReadOnlyList<Product>,
-                IReadOnlyList<ProductToReturnDTO>>(products);
+                IReadOnlyList<ProductToReturnDto>>(products);
 
-            return Ok(new Pagination<ProductToReturnDTO>()
+            return Ok(new Pagination<ProductToReturnDto>()
             {
                 PageIndex = productParams.PageIndex,
                 PageSize = productParams.PageSize,
@@ -67,22 +67,21 @@ namespace Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(ProductCreateDto productToCreate)
+        public async Task<ActionResult<ProductToReturnDto>> CreateProduct(ProductCreateDto productToCreate)
         {
             var product = _mapper.Map<ProductCreateDto, Product>(productToCreate);
-            product.PictureUrl = "images/products/placeholder.png";
 
             _unitOfWork.Repository<Product>().Add(product);
 
             var result = await _unitOfWork.CompleteAsync();
             if (result <= 0) return BadRequest(new ApiResponse(400, "Problem Creating Product"));
 
-            return Ok(product);
+            return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Product>> UpdateProduct(int id, ProductCreateDto productToUpdate)
+        public async Task<ActionResult<ProductToReturnDto>> UpdateProduct(int id, ProductCreateDto productToUpdate)
         {
             var product = await _unitOfWork.Repository<Product>().GetByIdAsync(id);
             if (product == null) return NotFound(new ApiResponse(404));
@@ -93,7 +92,7 @@ namespace Api.Controllers
             var result = await _unitOfWork.CompleteAsync();
             if (result <= 0) return BadRequest(new ApiResponse(400, "Problem Updating Product"));
 
-            return Ok(product);
+            return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
         }
 
         [Authorize(Roles = "Admin")]

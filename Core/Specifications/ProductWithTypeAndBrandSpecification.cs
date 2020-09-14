@@ -13,6 +13,7 @@ namespace Core.Specifications
         {
             AddInclude(x => x.ProductBrand);
             AddInclude(x => x.ProductType);
+            AddInclude(x => x.Photos);
             AddOrderBy(x => x.Name);
             AddPaging(param.PageSize * (param.PageIndex - 1), param.PageSize);
 
@@ -37,6 +38,7 @@ namespace Core.Specifications
         {
             AddInclude(x => x.ProductBrand);
             AddInclude(x => x.ProductType);
+            AddInclude(x => x.Photos);
         }
     }
 }

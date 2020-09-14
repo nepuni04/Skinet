@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Api.Helpers
 {
-    public class ProductUrlResolver : IValueResolver<Product, ProductToReturnDTO, string>
+    public class ProductUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
     {
         private readonly IConfiguration _config;
 
@@ -18,14 +18,16 @@ namespace Api.Helpers
             _config = config;
         }
 
-        public string Resolve(Product source, ProductToReturnDTO destination, string destMember, ResolutionContext context)
+        public string Resolve(Product source, ProductToReturnDto destination, string destMember, ResolutionContext context)
         {
-            if(!string.IsNullOrEmpty(source.PictureUrl))
+            var photo = source.Photos.FirstOrDefault(p => p.IsMain);
+
+            if (photo != null)
             {
-                return _config["ApiUrl"] + source.PictureUrl;
+                return _config["ApiUrl"] + photo.PictureUrl;
             }
 
-            return null;
+            return _config["ApiUrl"] + "images/products/placeholder.png";
         }
     }
 }

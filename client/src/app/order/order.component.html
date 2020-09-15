@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <div class="row" *ngIf="orders">
-    <div class="col-12">
+    <div class="col-12" *ngIf="orders.length > 0; else noOrder">
       <table class="table table-hover" style="cursor: pointer">
         <thead class="thead-light">
           <tr>
@@ -21,4 +21,8 @@
       </table>
     </div>
   </div>
+
+  <ng-template #noOrder>
+    <p>You dont have any orders at present :(</p>
+  </ng-template>
 </div>

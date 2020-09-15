@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Core.Entities
@@ -25,9 +26,30 @@ namespace Core.Entities
                 FileName = fileName,
                 PictureUrl = pictureUrl
             };
+
             if (_photos.Count == 0) photo.IsMain = true;
 
             _photos.Add(photo);
+        }
+
+        public void RemovePhoto(int id)
+        {
+            var photo = _photos.Find(x => x.Id == id);
+            _photos.Remove(photo);
+        }
+
+        public void SetMainPhoto(int id)
+        {
+            var photo = _photos.Find(x => x.Id == id);
+            if(photo != null)
+            {
+                foreach (var item in _photos.Where(item => item.IsMain))
+                {
+                    item.IsMain = false;
+                }
+
+                photo.IsMain = true;
+            }
         }
     }
 }

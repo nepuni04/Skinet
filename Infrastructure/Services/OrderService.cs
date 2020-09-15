@@ -35,7 +35,8 @@ namespace Infrastructure.Services
             var orderItems = new List<OrderItem>();
             foreach (var item in basket.Items)
             {
-                var product = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
+                var productSpec = new ProductWithPhotoSpecification(item.Id);
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpecAsync(productSpec);
                 var itemOrdered = new ProductItemOrdered(
                     product.Id,
                     product.Name,
@@ -51,8 +52,8 @@ namespace Infrastructure.Services
             // Calculate subtotal
             var subtotal = orderItems.Sum(item => item.Quantity * item.Price);
 
-            var spec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
-            var existingOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpecAsync(spec);
+            var orderSpec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
+            var existingOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpecAsync(orderSpec);
 
             if(existingOrder != null)
             {

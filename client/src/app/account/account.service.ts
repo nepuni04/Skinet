@@ -69,6 +69,7 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem("token");
     this.currentUserSource.next(null);
+    this.isAdminSource.next(null);
     this.router.navigateByUrl("/");
   }
 

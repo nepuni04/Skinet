@@ -38,12 +38,12 @@ namespace Core.Entities
             _photos.Remove(photo);
         }
 
-        public void SetMainPhoto(int id)
+        public void SetMainPhoto(int photoId)
         {
-            var photo = _photos.Find(x => x.Id == id);
+            var photo = _photos.Find(x => x.Id == photoId);
             if(photo != null)
             {
-                foreach (var item in _photos.Where(item => item.IsMain))
+                foreach (var item in _photos.Where(p => p.IsMain))
                 {
                     item.IsMain = false;
                 }

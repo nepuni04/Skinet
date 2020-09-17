@@ -16,8 +16,12 @@ namespace Core.Entities
         public ProductType ProductType { get; set; }
         public ProductBrand ProductBrand { get; set; }
 
-        private readonly List<Photo> _photos = new List<Photo>();
-        public IReadOnlyList<Photo> Photos => _photos.AsReadOnly();
+        private List<Photo> _photos = new List<Photo>();
+        public IReadOnlyList<Photo> Photos
+        {
+            get => _photos.AsReadOnly();
+            set => _photos = (List<Photo>)value;
+        }
 
         public void AddPhoto(string pictureUrl, string fileName, bool isMain = false)
         {
@@ -32,9 +36,9 @@ namespace Core.Entities
             _photos.Add(photo);
         }
 
-        public void RemovePhoto(int id)
+        public void RemovePhoto(int photoId)
         {
-            var photo = _photos.Find(x => x.Id == id);
+            var photo = _photos.Find(x => x.Id == photoId);
             _photos.Remove(photo);
         }
 

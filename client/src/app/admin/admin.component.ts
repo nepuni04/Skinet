@@ -1,6 +1,6 @@
 import { AdminService } from './admin.service';
 import { ShopService } from './../shop/shop.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IProduct } from '../shared/models/product';
 import { ShopParams } from '../shared/models/shopParams';
 
@@ -13,6 +13,7 @@ export class AdminComponent implements OnInit {
   products: IProduct[];
   totalCount: number;
   shopParams = new ShopParams();
+  @ViewChild("search", { static: false }) searchTerm: ElementRef; 
 
   constructor(private shopService: ShopService, private adminService: AdminService) { }
 
@@ -40,5 +41,17 @@ export class AdminComponent implements OnInit {
       this.products.splice(this.products.findIndex(p => p.id === id), 1);
       this.totalCount--;
     }, error => console.log(error));
+  }
+
+  onSearch() {
+    this.shopParams.search = this.searchTerm.nativeElement.value;
+    this.shopParams.pageIndex = 1;
+    this.getProducts();
+  }
+
+  onReset() {
+    this.searchTerm.nativeElement.value = "";
+    this.shopParams = new ShopParams();
+    this.getProducts();
   }
 }

@@ -16,7 +16,7 @@
         <li
           class="list-group-item"
           *ngFor="let brand of brands"
-          [class.active]="brand.id === this.shopParams.brandId"
+          [class.active]="brand.id === shopParams.brandId"
           [value]="brand.id"
           (click)="onBrandSelected(brand.id)"
         >
@@ -28,7 +28,7 @@
         <li
           class="list-group-item"
           *ngFor="let type of types"
-          [class.active]="type.id === this.shopParams.typeId"
+          [class.active]="type.id === shopParams.typeId"
           [value]="type.id"
           (click)="onTypeSelected(type.id)"
         >

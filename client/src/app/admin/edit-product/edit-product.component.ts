@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { IBrand } from 'src/app/shared/models/brand';
-import { ProductFormValues } from './../../shared/models/product';
+import { ProductFormValues, IProduct } from './../../shared/models/product';
 import { IType } from './../../shared/models/productType';
 import { ShopService } from './../../shop/shop.service';
 import { AdminService } from './../admin.service';
@@ -13,15 +13,14 @@ import { AdminService } from './../admin.service';
   styleUrls: ['./edit-product.component.scss']
 })
 export class EditProductComponent implements OnInit {
-  product: ProductFormValues;
+  product: IProduct;
+  productFormValues: ProductFormValues;
   brands: IBrand[];
   types: IType[];
 
-  constructor(private adminService: AdminService,
-    private shopService: ShopService,
-    private router: Router,
+  constructor(private shopService: ShopService,
     private route: ActivatedRoute) {
-    this.product = new ProductFormValues();
+    this.productFormValues = new ProductFormValues();
   }
 
   ngOnInit(): void {
@@ -41,34 +40,14 @@ export class EditProductComponent implements OnInit {
       });
   }
 
-  onSubmit(): void {
-    if (this.route.snapshot.url[0].path === 'edit') {
-      const updatedProduct = { ...this.product, price: +this.product.price }
-      this.adminService.updateProduct(+this.route.snapshot.paramMap.get('id'), updatedProduct)
-        .subscribe(
-          response => this.router.navigate(["/admin"]),
-          error => console.log(error)
-        );
-    }
-    else {
-      const newProduct = { ...this.product, price: +this.product.price };
-      this.adminService.createProduct(newProduct).subscribe(
-        response => this.router.navigate(["/admin"]),
-        error => console.log(error)
-      );
-    }
-  }
-
-  updatePrice(event: number): void {
-    this.product.price = event;
-  }
-
   loadProduct(): void {
     this.shopService.getProduct(+this.route.snapshot.paramMap.get("id"))
       .subscribe(response => {
         const productBrandId = this.brands && this.brands.find(x => x.name === response.productBrand).id;
         const productTypeId = this.types && this.types.find(x => x.name === response.productType).id;
-        this.product = { ...response, productBrandId, productTypeId };
+
+        this.product = response;
+        this.productFormValues = { ...response, productBrandId, productTypeId };
       });
   }
 

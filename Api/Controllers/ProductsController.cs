@@ -125,6 +125,15 @@ namespace Api.Controllers
             var product = await _unitOfWork.Repository<Product>().GetByIdAsync(id);
             if (product == null) return NotFound(new ApiResponse(404));
 
+            foreach (var photo in product.Photos)
+            {
+                // check that any original images that are used for seeded products are not deleted.
+                if (photo.Id > 18)
+                {
+                    _photoService.DeleFromDisk(photo);
+                }
+            }
+
             _unitOfWork.Repository<Product>().Delete(product);
 
             var result = await _unitOfWork.CompleteAsync();
@@ -192,7 +201,7 @@ namespace Api.Controllers
         [HttpPost("{id}/photo/{photoId}")]
         public async Task<ActionResult<ProductToReturnDto>> SetMainPhoto(int id, int photoId)
         {
-            var spec = new ProductWithPhotoSpecification(id);
+            var spec = new ProductWithTypeAndBrandSpecification(id);
             var product = await _unitOfWork.Repository<Product>().GetEntityWithSpecAsync(spec);
 
             if (product == null) return NotFound(new ApiResponse(404, "Product does not exists"));

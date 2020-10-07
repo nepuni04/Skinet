@@ -37,6 +37,8 @@ export class AdminComponent implements OnInit {
   }
 
   deleteProduct(id: number): void {
+    if (!confirm("Are you sure you want to delete this?")) return
+
     this.adminService.deleteProduct(id).subscribe(_ => {
       this.products.splice(this.products.findIndex(p => p.id === id), 1);
       this.totalCount--;

@@ -47,6 +47,8 @@ export class EditProductPhotoComponent implements OnInit {
   }
 
   deletePhoto(photoId: number) {
+    if (!confirm("Are you sure you want to delete this?")) return;
+
     this.adminService.deletePhoto(this.product.id, photoId).subscribe(() => {
       const photoIndex = this.product.photos.findIndex(x => x.id === photoId);
       this.product.photos.splice(photoIndex, 1);

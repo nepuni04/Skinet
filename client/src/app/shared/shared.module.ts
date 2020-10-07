@@ -2,7 +2,6 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { CurrencyMaskModule, CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask";
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -18,6 +17,7 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { PhotoWidgetComponent } from './components/photo-widget/photo-widget.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -46,9 +46,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CarouselModule.forRoot(),
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    ModalModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    RouterModule,
     CurrencyMaskModule,
     NgxGalleryModule,
     ImageCropperModule,
@@ -61,6 +61,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CarouselModule,
     BsDropdownModule,
     TabsModule,
+    ModalModule,
     ReactiveFormsModule,
     FormsModule,
     CurrencyMaskModule,

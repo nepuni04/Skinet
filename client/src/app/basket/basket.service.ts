@@ -140,7 +140,7 @@ export class BasketService {
     };
   }
 
-  private addOrUpdateItem(items: IBasketItem[], item: IBasketItem, quantity: number): import("../shared/models/basket").IBasketItem[] {
+  private addOrUpdateItem(items: IBasketItem[], item: IBasketItem, quantity: number): IBasketItem[] {
     const index = items.findIndex(i => i.id === item.id);
     if (index === -1) {
       items.push(item);

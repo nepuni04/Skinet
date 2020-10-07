@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Api.Dtos.ProductDtos;
+using System.Collections.Generic;
 
 namespace Api.Dtos
 {

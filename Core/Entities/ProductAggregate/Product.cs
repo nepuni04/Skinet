@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Entities.ProductAggregate;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.Entities
@@ -18,7 +19,7 @@ namespace Core.Entities
         public IReadOnlyList<Photo> Photos
         {
             get => _photos.AsReadOnly();
-            set => _photos = (List<Photo>)value;
+            private set => _photos = (List<Photo>)value;
         }
 
         public void AddPhoto(string pictureUrl, string fileName, bool isMain = false)

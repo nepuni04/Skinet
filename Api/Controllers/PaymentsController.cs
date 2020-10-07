@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Api.Errors;
 using Core.Entities;
-using Core.Entities.OrderAggregrate;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +12,7 @@ using Order = Core.Entities.OrderAggregrate.Order;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PaymentsController : ControllerBase
+    public class PaymentsController : BaseApiController
     {
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;

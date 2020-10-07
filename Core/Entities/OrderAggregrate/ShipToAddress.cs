@@ -10,7 +10,13 @@ namespace Core.Entities.OrderAggregrate
         {
         }
 
-        public ShipToAddress(string firstName, string lastName, string street, string city, string state, string zipcode)
+        public ShipToAddress(
+            string firstName, 
+            string lastName,
+            string street, 
+            string city, 
+            string state, 
+            string zipcode)
         {
             FirstName = firstName;
             LastName = lastName;

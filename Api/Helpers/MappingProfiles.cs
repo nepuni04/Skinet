@@ -4,7 +4,6 @@ using AutoMapper;
 using Core.Entities;
 using Core.Entities.Identity;
 using Core.Entities.OrderAggregrate;
-using Core.Entities.ProductAggregate;
 
 namespace Api.Helpers
 {

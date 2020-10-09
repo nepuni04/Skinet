@@ -154,25 +154,26 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductReview",
+                name: "ProductReviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserName = table.Column<string>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    UserEmail = table.Column<string>(nullable: true),
                     Rating = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
-                    ProductId = table.Column<int>(nullable: true)
+                    ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductReview", x => x.Id);
+                    table.PrimaryKey("PK_ProductReviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductReview_Products_ProductId",
+                        name: "FK_ProductReviews_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -191,8 +192,8 @@ namespace Infrastructure.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_ProductId",
-                table: "ProductReview",
+                name: "IX_ProductReviews_ProductId",
+                table: "ProductReviews",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -215,7 +216,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Photo");
 
             migrationBuilder.DropTable(
-                name: "ProductReview");
+                name: "ProductReviews");
 
             migrationBuilder.DropTable(
                 name: "Orders");

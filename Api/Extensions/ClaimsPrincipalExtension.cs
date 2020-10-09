@@ -9,5 +9,10 @@ namespace Api.Extensions
         {
             return user?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
         }
+
+        public static string GetUserNameFromClaimsPrincipal(this ClaimsPrincipal user)
+        {
+            return user?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
+        }
     }
 }
